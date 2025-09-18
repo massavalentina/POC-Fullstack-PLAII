@@ -23,6 +23,9 @@ namespace Infrastructure.Factories
                 case DatabaseType.MONGODB:
                     services.AddMongoDbRepositories(configuration);
                     break;
+                case DatabaseType.POSTGRESQL:
+                    services.AddPostgresRepositories(configuration);
+                    break;
                 default:
                     throw new NotSupportedException(InfrastructureConstants.DATABASE_TYPE_NOT_SUPPORTED);
             }
@@ -57,5 +60,25 @@ namespace Infrastructure.Factories
 
             return services;
         }
+
+        private static IServiceCollection AddPostgresRepositories(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<Repositories.Sql.StoreDbContext>(options =>
+            {
+                options.UseNpgsql(configuration.GetConnectionString("PostgresConnection"));
+            }, ServiceLifetime.Scoped);
+
+            // Habilitar para trabajar con migraciones
+            var context = services.BuildServiceProvider().GetRequiredService<Repositories.Sql.StoreDbContext>();
+            context.Database.Migrate();
+
+            /* Postgres Repositories */
+            services.AddTransient<IDummyEntityRepository, Repositories.Sql.DummyEntityRepository>();
+
+            return services;
+        }
+
+
+
     }
 }

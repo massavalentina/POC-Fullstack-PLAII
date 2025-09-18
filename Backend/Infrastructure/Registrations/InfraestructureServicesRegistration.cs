@@ -27,14 +27,17 @@ namespace Infrastructure.Registrations
             services.AddEventBus(configuration);
 
             /* Adapters */
-            services.AddSingleton<IExternalApiClient, ExternalApiHttpAdapter>();
+            //services.AddSingleton<IExternalApiClient, ExternalApiHttpAdapter>();
 
             return services;
         }
 
         private static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
-            string dbType = configuration["Configurations:UseDatabase" ?? throw new NullReferenceException(InfrastructureConstants.DATABASE_TYPE_NOT_CONFIGURED)];
+            var dbType = configuration["Configurations:UseDatabase"]
+                 ?? throw new NullReferenceException(InfrastructureConstants.DATABASE_TYPE_NOT_CONFIGURED);
+
+            dbType = dbType.Trim().ToUpperInvariant();
 
             services.CreateDataBase(dbType, configuration);
 

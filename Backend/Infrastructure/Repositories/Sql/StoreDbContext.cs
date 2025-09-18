@@ -10,6 +10,7 @@ namespace Infrastructure.Repositories.Sql
     internal class StoreDbContext : DbContext
     {
         public DbSet<DummyEntity> DummyEntity { get; set; }
+        public DbSet<Car> Cars { get; set; }
 
         public StoreDbContext(DbContextOptions<StoreDbContext> options) : base(options)
         {
@@ -27,6 +28,7 @@ namespace Infrastructure.Repositories.Sql
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DummyEntity>().ToTable("DummyEntity");
+            modelBuilder.Entity<Car>().ToTable("Cars");
         }
     }
 }
