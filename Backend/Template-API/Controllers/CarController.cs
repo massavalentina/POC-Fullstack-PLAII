@@ -3,22 +3,26 @@
 using Application.UseCases.Car.Commands.DeleteCar;
 using Controllers;
 using Core.Application;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 namespace Controlles
 {
     [ApiController]
-
-    public class CarController(ICommandQueryBus commandQueryBus) : BaseController
+    [Route("api/[controller]")]
+    public class CarsController : ControllerBase
     {
-        private readonly ICommandQueryBus _commandQueryBus = commandQueryBus ?? throw new ArgumentNullException(nameof(commandQueryBus));
+        private readonly IMediator _mediator;
 
-        [HttpDelete("api/v1/[Controller]/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public CarsController(IMediator mediator)
         {
-            if (id <= 0) return BadRequest();
+            _mediator = mediator;
+        }
 
-            await _commandQueryBus.Send(new DeleteCarCommand { CarId = id });
-
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var command = new DeleteCarCommand(id);
+            await _mediator.Send(command);
             return NoContent();
         }
     }

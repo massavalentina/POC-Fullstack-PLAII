@@ -4,11 +4,11 @@ namespace Application.DomainEvents
 {
     internal sealed class CarDeleted : DomainEvent
     {
-        public int CarId { get; set; }
+        public Guid CarId { get; set; }
 
-        public CarDeleted(int id)
+        public CarDeleted(Guid carId)
         {
-             CarId = id;
+            CarId = carId;
         }
     }
 }

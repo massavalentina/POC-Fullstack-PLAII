@@ -61,15 +61,26 @@ namespace Core.Infraestructure.Repositories.Sql
             return await Repository.FindAsync(keyValues);
         }
 
-        public void Remove(params object[] keyValues)
+        public virtual bool Remove(params object[] keyValues)
         {
             TEntity entity = FindOne(keyValues);
 
-            if (entity != null)
-            {
-                Repository.Remove(entity);
-                Context.SaveChanges();
-            }
+            if (entity == null)
+                return false;
+
+            Repository.Remove(entity);
+            return Context.SaveChanges() > 0;
+        }
+
+        public virtual async Task<bool> RemoveAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            // Buscar directamente por el Guid
+            TEntity entity = await Repository.FindAsync(id, cancellationToken);
+            if (entity == null)
+                return false;
+
+            Repository.Remove(entity);
+            return await Context.SaveChangesAsync(cancellationToken) > 0;
         }
 
         public void Update(object id, TEntity entity)

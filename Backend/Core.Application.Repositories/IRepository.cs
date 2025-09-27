@@ -12,7 +12,9 @@ namespace Core.Application.Repositories
         Task<List<TEntity>> FindAllAsync();
         TEntity FindOne(params object[] keyValues);
         Task<TEntity> FindOneAsync(params object[] keyValues);
-        void Remove(params object[] keyValues);
+        bool Remove(params object[] keyValues);
+        Task<bool> RemoveAsync(Guid id, CancellationToken cancellationToken = default);
+
         void Update(object id, TEntity entity);
     }
 }

@@ -70,10 +70,38 @@ namespace Core.Infraestructure.Repositories.MongoDb
             Collection.DeleteOne(filter);
         }
 
+        public async Task RemoveAsync(params object[] keyValues)
+        {
+            if (keyValues == null || keyValues.Length == 0)
+                throw new ArgumentException("Debe pasar la clave primaria.");
+
+            var filter = Builders<TEntity>.Filter.Eq("_id", keyValues[0]);
+            var result = await Collection.DeleteOneAsync(filter);
+
+            if (result.DeletedCount == 0)
+                throw new KeyNotFoundException($"No se encontró la entidad con Id {keyValues[0]}");
+        }
+
+
         public void Update(object id, TEntity entity)
         {
             FilterDefinition<TEntity> filter = Builders<TEntity>.Filter.Eq("_id", id);
             Collection.ReplaceOne(filter, entity);
+        }
+
+        bool IRepository<TEntity>.Remove(params object[] keyValues)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IRepository<TEntity>.RemoveAsync(Guid id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

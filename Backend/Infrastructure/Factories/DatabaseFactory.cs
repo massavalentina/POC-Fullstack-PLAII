@@ -44,6 +44,7 @@ namespace Infrastructure.Factories
 
             /* Sql Repositories */
             services.AddTransient<IDummyEntityRepository, Repositories.Sql.DummyEntityRepository>();
+            services.AddTransient<ICarRepository, Repositories.Sql.CarRepository>();
 
             return services;
         }
@@ -74,6 +75,8 @@ namespace Infrastructure.Factories
 
             /* Postgres Repositories */
             services.AddTransient<IDummyEntityRepository, Repositories.Sql.DummyEntityRepository>();
+            services.AddTransient<ICarRepository, Repositories.Sql.CarRepository>();
+
 
             return services;
         }

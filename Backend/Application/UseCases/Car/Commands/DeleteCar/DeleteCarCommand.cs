@@ -7,10 +7,11 @@ namespace Application.UseCases.Car.Commands.DeleteCar
     public class DeleteCarCommand : IRequestCommand<Unit>
     {
         [Required]
-        public int CarId { get; set; }
+        public Guid CarId { get; set; }
 
-        public DeleteCarCommand()
+        public DeleteCarCommand(Guid carId)
         {
+            CarId = carId;
         }
     }
 }
