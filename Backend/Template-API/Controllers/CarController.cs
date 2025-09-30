@@ -1,6 +1,8 @@
 ﻿
 
 using Application.UseCases.Car.Commands.DeleteCar;
+using Application.UseCases.Car.Queries.GetCarByChassisNumber;
+using Application.UseCases.DummyEntity.Queries.GetDummyEntityBy;
 using Controllers;
 using Core.Application;
 using MediatR;
@@ -8,8 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Controlles
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class CarsController : ControllerBase
+    [Route("api/v1/[controller]")]
+    public class CarsController : BaseController
     {
         private readonly IMediator _mediator;
 
@@ -18,12 +20,24 @@ namespace Controlles
             _mediator = mediator;
         }
 
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("api/v1/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var command = new DeleteCarCommand(id);
             await _mediator.Send(command);
             return NoContent();
+        }
+
+        [HttpGet("api/v1/{chassisNumber:int}")] //cambiar a string según consigna
+        public async Task<IActionResult> GetByChassisNumber(int chassisNumber)
+        {
+            if (chassisNumber <= 0)
+                return BadRequest("El número de chasis debe ser mayor a 0");
+
+            var query = new GetCarByChassisNumberQuery(chassisNumber);
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
         }
     }
 }

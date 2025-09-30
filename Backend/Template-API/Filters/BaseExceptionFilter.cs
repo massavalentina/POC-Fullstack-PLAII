@@ -1,4 +1,5 @@
-﻿using Controllers;
+﻿using Application.Exceptions;
+using Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;
@@ -31,32 +32,24 @@ namespace Filters
             context.Result = result;
         }
 
+        private static readonly Dictionary<Type, HttpStatusCode> ExceptionStatusMap = new()
+        {
+            [typeof(EntityDoesNotExistException)] = HttpStatusCode.NotFound,
+            [typeof(BussinessException)] = HttpStatusCode.BadRequest,
+            [typeof(EntityDoesExistException)] = HttpStatusCode.BadRequest,
+            [typeof(InvalidEntityDataException)] = HttpStatusCode.BadRequest,
+            [typeof(ArgumentNullException)] = HttpStatusCode.LengthRequired,
+        };
+
         private HttpStatusCode GetErrorCode(Type exceptionType)
         {
-            Exceptions IsException;
-            if (Enum.TryParse(exceptionType.Name, out IsException))
-            {
-                switch (IsException)
-                {
-                    case Exceptions.ArgumentNullException:
-                        return HttpStatusCode.LengthRequired;
+            if (ExceptionStatusMap.TryGetValue(exceptionType, out var statusCode))
+                return statusCode;
 
-                    case Exceptions.BussinessException:
-                    case Exceptions.EntityDoesExistException:
-                    case Exceptions.InvalidEntityDataException:
-                        return HttpStatusCode.BadRequest;
+            if (typeof(ApplicationException).IsAssignableFrom(exceptionType))
+                return HttpStatusCode.BadRequest;
 
-                    case Exceptions.EntityDoesNotExistException:
-                        return HttpStatusCode.NotFound;
-
-                    default:
-                        return HttpStatusCode.InternalServerError;
-                }
-            }
-            else
-            {
-                return HttpStatusCode.InternalServerError;
-            }   
+            return HttpStatusCode.InternalServerError;
         }
 
         private bool IsManagedException(Exception ex)

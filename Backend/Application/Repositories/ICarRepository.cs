@@ -10,7 +10,7 @@ namespace Application.Repositories
     /// </summary>
     public interface ICarRepository : IRepository<Car>
     {
-        //Aqui se definen propiedades y metodos Custom.
-
+        //propiedades y metodos Custom.
+        Task<Car?> GetByChassisNumberAsync(int chassisNumber, CancellationToken cancellationToken = default);
     }
 }
