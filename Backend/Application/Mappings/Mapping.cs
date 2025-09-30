@@ -18,8 +18,9 @@ namespace Application.Mappings
 
 
             CreateMap<Car, CarDto>().ReverseMap();
+            CreateMap<Car, CarCreated>().ReverseMap();
 
-            
+
         }
     }
 }

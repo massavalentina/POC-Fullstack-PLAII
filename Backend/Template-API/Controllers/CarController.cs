@@ -1,5 +1,6 @@
 ﻿
 
+using Application.UseCases.Car.Commands.CreateCar;
 using Application.UseCases.Car.Commands.DeleteCar;
 using Controllers;
 using Core.Application;
@@ -18,6 +19,16 @@ namespace Controlles
             _mediator = mediator;
         }
 
+        // Post method to create a new car
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateCarCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok();
+         }
+
+
+        // Delete method to delete a car by its ID
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {

@@ -16,6 +16,8 @@ namespace Domain.Validators
         {
             //Las reglas de negocio deben ir definidas aca
             RuleFor(x => x.Id).NotNull().NotEmpty().WithMessage(DomainConstants.NOTNULL_OR_EMPTY);
+
+
         }
     }
 }
