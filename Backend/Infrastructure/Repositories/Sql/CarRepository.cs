@@ -11,6 +11,6 @@ namespace Infrastructure.Repositories.Sql
 {
     internal sealed class CarRepository(StoreDbContext context) : BaseRepository<Car>(context), ICarRepository
     {
-       
+        object ICarRepository.Repository => throw new NotImplementedException();
     }
 }

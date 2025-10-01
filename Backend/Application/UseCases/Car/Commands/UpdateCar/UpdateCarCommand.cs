@@ -1,4 +1,5 @@
-﻿using Core.Application;
+﻿using Application.DataTransferObjects;
+using Core.Application;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace Application.UseCases.Car.Commands.UpdateCar
 {
-    internal class UpdateCarCommand : IRequestCommand
+    public class UpdateCarCommand : IRequest<CarDto>
     {
-    }
+        public Guid Id { get; set; }         
+        public int Color { get; set; }       
+        public int MotorNumber { get; set; } 
+    } 
 }

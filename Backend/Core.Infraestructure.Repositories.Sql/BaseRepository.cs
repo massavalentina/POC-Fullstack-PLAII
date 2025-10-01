@@ -93,5 +93,13 @@ namespace Core.Infraestructure.Repositories.Sql
                 Context.SaveChanges();
             }
         }
+
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            return Context.SaveChangesAsync(cancellationToken);
+        }
+
+         
+         
     }
 }

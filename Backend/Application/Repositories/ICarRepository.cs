@@ -11,6 +11,6 @@ namespace Application.Repositories
     public interface ICarRepository : IRepository<Car>
     {
         //Aqui se definen propiedades y metodos Custom.
-
+        object Repository { get; }
     }
 }
