@@ -103,5 +103,15 @@ namespace Core.Infraestructure.Repositories.MongoDb
         {
             throw new NotImplementedException();
         }
+
+        public Task SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<int> IRepository<TEntity>.SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
