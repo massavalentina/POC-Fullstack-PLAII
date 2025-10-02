@@ -12,14 +12,10 @@ namespace Application.UseCases.Car.Queries.GetCarById
         : IRequestQueryHandler<GetCarByIdQuery, CarDto>
     {
         private readonly ICarRepository _carRepository;
-        private readonly ILogger<GetCarByIdHandler> _logger;
 
-        public GetCarByIdHandler(
-            ICarRepository carRepository,
-            ILogger<GetCarByIdHandler> logger)
+        public GetCarByIdHandler(ICarRepository carRepository)
         {
             _carRepository = carRepository;
-            _logger = logger;
         }
 
         public async Task<CarDto> Handle(GetCarByIdQuery request, CancellationToken cancellationToken)
@@ -31,7 +27,6 @@ namespace Application.UseCases.Car.Queries.GetCarById
             {
                 throw new EntityDoesNotExistException(ApplicationConstants.ENTITY_DOESNOT_EXIST_EXCEPTION);
             }
-
 
             return new CarDto
             {
