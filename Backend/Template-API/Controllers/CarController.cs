@@ -5,6 +5,7 @@ using Application.UseCases.Car.Commands.CreateCar;
 using Application.UseCases.Car.Commands.DeleteCar;
 using Application.UseCases.Car.Commands.UpdateCar;
 using Application.UseCases.Car.Queries.GetAllCars;
+using Application.UseCases.Car.Queries.GetCarById;
 using Application.UseCases.Car.Queries.GetCarByChassisNumber;
 using Application.UseCases.DummyEntity.Commands.CreateDummyEntity;
 using Application.UseCases.DummyEntity.Commands.UpdateDummyEntity;
@@ -14,7 +15,8 @@ using Core.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Controllers
+
+namespace Controlles
 {
     [ApiController]
     [Route("api/v1/car/[controller]")]
@@ -60,6 +62,18 @@ namespace Controllers
             var result = await _mediator.Send(query);
             return Ok(result);
         }
+
+        
+        [HttpGet("{id:guid}")] 
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            if (id == Guid.Empty)
+                return BadRequest();
+            var query = new GetCarByIdQuery(id);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
 
         // Get method to retrieve a car by its chassis number
         [HttpGet("chassis/{chassisNumber}")]

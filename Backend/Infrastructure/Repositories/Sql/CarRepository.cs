@@ -31,6 +31,12 @@ namespace Infrastructure.Repositories.Sql
             await _context.Cars.AddAsync(entity, ct);
             await _context.SaveChangesAsync(ct);
             return entity.Id;
+            
+        public async Task<Car> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _context.Cars
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
         }
     }
 }
