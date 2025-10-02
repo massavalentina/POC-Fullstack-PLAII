@@ -16,5 +16,7 @@ namespace Core.Application.Repositories
         Task<bool> RemoveAsync(Guid id, CancellationToken cancellationToken = default);
 
         void Update(object id, TEntity entity);
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
