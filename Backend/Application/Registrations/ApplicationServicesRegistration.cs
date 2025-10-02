@@ -25,6 +25,8 @@ namespace Application.Registrations
 
             /* Application Services */
             services.AddScoped<IDummyEntityApplicationService, DummyEntityApplicationService>();
+            services.AddScoped<ICarApplicationService, CarApplicationService>();
+
 
             return services;
         }

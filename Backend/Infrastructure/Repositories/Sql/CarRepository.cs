@@ -25,5 +25,12 @@ namespace Infrastructure.Repositories.Sql
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.ChassisNumber == chassisNumber, cancellationToken);
         }
+
+        public async Task<Guid> AddAsync(Car entity, CancellationToken ct = default)
+        {
+            await _context.Cars.AddAsync(entity, ct);
+            await _context.SaveChangesAsync(ct);
+            return entity.Id;
+        }
     }
 }

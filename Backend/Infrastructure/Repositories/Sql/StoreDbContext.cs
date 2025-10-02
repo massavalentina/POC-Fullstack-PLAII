@@ -28,7 +28,20 @@ namespace Infrastructure.Repositories.Sql
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DummyEntity>().ToTable("DummyEntity");
-            modelBuilder.Entity<Car>().ToTable("Cars");
+            modelBuilder.Entity<Car>(b =>
+            {
+                b.ToTable("Cars");
+                b.HasKey(x => x.Id);
+                b.Property(x => x.Id).ValueGeneratedNever();
+                b.Property(x => x.Make).IsRequired().HasMaxLength(30);
+                b.Property(x => x.Model).IsRequired().HasMaxLength(30);
+                b.Property(x => x.Color).IsRequired().HasMaxLength(30);
+                b.Property(x => x.ModelYear).IsRequired();
+                b.Property(x => x.MotorNumber).IsRequired().HasMaxLength(50);
+                b.Property(x => x.ChassisNumber).IsRequired().HasMaxLength(50);
+                b.HasIndex(x => x.ChassisNumber).IsUnique(); 
+                b.HasIndex(x => x.MotorNumber).IsUnique();   
+            });
         }
     }
 }

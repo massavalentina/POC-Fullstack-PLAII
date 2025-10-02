@@ -12,5 +12,7 @@ namespace Application.Repositories
     {
         //propiedades y metodos Custom.
         Task<Car?> GetByChassisNumberAsync(string chassisNumber, CancellationToken cancellationToken = default);
+        Task<Guid> AddAsync(Car entity, CancellationToken ct = default);
+
     }
 }

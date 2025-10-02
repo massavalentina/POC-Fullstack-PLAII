@@ -1,20 +1,23 @@
 ﻿
 
 using Application.Repositories;
+using Application.UseCases.Car.Commands.CreateCar;
 using Application.UseCases.Car.Commands.DeleteCar;
 using Application.UseCases.Car.Commands.UpdateCar;
-using Application.UseCases.DummyEntity.Commands.UpdateDummyEntity;
+using Application.UseCases.Car.Queries.GetAllCars;
 using Application.UseCases.Car.Queries.GetCarByChassisNumber;
+using Application.UseCases.DummyEntity.Commands.CreateDummyEntity;
+using Application.UseCases.DummyEntity.Commands.UpdateDummyEntity;
 using Application.UseCases.DummyEntity.Queries.GetDummyEntityBy;
 using Controllers;
 using Core.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Application.UseCases.Car.Queries.GetAllCars;
-namespace Controlles
+
+namespace Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/car/[controller]")]
     public class CarsController : BaseController
     {
         private readonly IMediator _mediator;
@@ -24,6 +27,8 @@ namespace Controlles
             _mediator = mediator;
         }
 
+
+        // Delete method to delete a car by its ID
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -32,6 +37,8 @@ namespace Controlles
             return NoContent();
         }
 
+
+        // Update method to update a car's details
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCarCommand command)
         {
@@ -45,6 +52,7 @@ namespace Controlles
             return Ok(updatedCar);
         }
 
+        // Get method to retrieve all cars
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -53,6 +61,7 @@ namespace Controlles
             return Ok(result);
         }
 
+        // Get method to retrieve a car by its chassis number
         [HttpGet("chassis/{chassisNumber}")]
         public async Task<IActionResult> GetByChassisNumber(string chassisNumber)
         {
@@ -63,6 +72,16 @@ namespace Controlles
             var result = await _mediator.Send(query);
 
             return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateCarCommand command)
+        {
+            if (command is null) return BadRequest();
+
+            var id = await _mediator.Send(command);
+
+            return Ok();
         }
     }
 
