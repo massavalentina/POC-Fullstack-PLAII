@@ -26,34 +26,33 @@ namespace Application.UseCases.Car.Commands.DeleteCar
             _logger = logger;
         }
 
-        
 
         public async Task<Unit> Handle(DeleteCarCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                _logger.LogInformation("❶ Starting delete process for CarId: {CarId}", request.CarId);
+                _logger.LogInformation("Deleting car with ID: {CarId}", request.CarId);
 
-                _logger.LogInformation("❷ Calling RemoveAsync...");
                 bool wasDeleted = await _carRepository.RemoveAsync(request.CarId, cancellationToken);
-                _logger.LogInformation("❸ RemoveAsync completed. Result: {WasDeleted}", wasDeleted);
 
                 if (!wasDeleted)
                 {
-                    _logger.LogWarning("❹ Car with ID {CarId} not found", request.CarId);
-                    throw new NotFoundException($"Car with ID {request.CarId} not found");
+                    _logger.LogWarning("Car with ID {CarId} not found", request.CarId);
+                    throw new EntityDoesNotExistException(ApplicationConstants.ENTITY_DOESNOT_EXIST_EXCEPTION);
                 }
 
-                _logger.LogInformation("❺ Publishing CarDeleted event...");
                 await _domainBus.Publish(new CarDeleted(request.CarId), cancellationToken);
+                _logger.LogInformation("Car with ID {CarId} deleted successfully", request.CarId);
 
-                _logger.LogInformation("❻ Car with ID {CarId} deleted successfully", request.CarId);
                 return Unit.Value;
             }
-            catch (Exception ex)
+            catch (EntityDoesNotExistException) 
             {
-                _logger.LogError(ex, "❼ ERROR in DeleteCarHandler for CarId: {CarId}. Exception: {ExceptionType} - {ExceptionMessage}",
-                    request.CarId, ex.GetType().Name, ex.Message);
+                throw; 
+            }
+            catch (Exception ex) 
+            {
+                _logger.LogError(ex, "Error deleting car with ID: {CarId}", request.CarId);
                 throw new BussinessException(ApplicationConstants.PROCESS_EXECUTION_EXCEPTION, ex);
             }
         }

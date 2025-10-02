@@ -18,10 +18,10 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Make = table.Column<string>(type: "text", nullable: true),
                     Model = table.Column<string>(type: "text", nullable: true),
-                    Color = table.Column<int>(type: "integer", nullable: false),
-                    Year = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    MotorNumber = table.Column<int>(type: "integer", nullable: false),
-                    ChassisNumber = table.Column<int>(type: "integer", nullable: false)
+                    Color = table.Column<string>(type: "text", nullable: true),
+                    ModelYear = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    MotorNumber = table.Column<string>(type: "text", nullable: true),
+                    ChassisNumber = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
