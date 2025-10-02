@@ -11,6 +11,7 @@ using Core.Application;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Application.UseCases.Car.Queries.GetAllCars;
+using Application.UseCases.Car.Queries.GetCarById;
 namespace Controlles
 {
     [ApiController]
@@ -53,7 +54,18 @@ namespace Controlles
             return Ok(result);
         }
 
-        [HttpGet("api/v1/{chassisNumber}")]  // ← Solo el parámetro, sin :string
+        [HttpGet("{id:guid}")] 
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            if (id == Guid.Empty)
+                return BadRequest();
+            var query = new GetCarByIdQuery(id);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+
+        [HttpGet("chassisNumber/{chassisNumber}")]  // ← Solo el parámetro, sin :string
         public async Task<IActionResult> GetByChassisNumber(string chassisNumber)
         {
             if (string.IsNullOrWhiteSpace(chassisNumber))
