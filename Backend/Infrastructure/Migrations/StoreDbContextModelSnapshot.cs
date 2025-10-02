@@ -28,11 +28,11 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("ChassisNumber")
-                        .HasColumnType("integer");
+                    b.Property<string>("ChassisNumber")
+                        .HasColumnType("text");
 
-                    b.Property<int>("Color")
-                        .HasColumnType("integer");
+                    b.Property<string>("Color")
+                        .HasColumnType("text");
 
                     b.Property<string>("Make")
                         .HasColumnType("text");
@@ -40,11 +40,11 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Model")
                         .HasColumnType("text");
 
-                    b.Property<int>("MotorNumber")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("Year")
+                    b.Property<DateTime>("ModelYear")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("MotorNumber")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

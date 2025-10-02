@@ -42,7 +42,7 @@ namespace Application.UseCases.Car.Queries.GetCarByChassisNumber
                 Make = car.Make,
                 Model = car.Model,
                 Color = car.Color,
-                Year = car.Year,
+                ModelYear = car.ModelYear,
                 MotorNumber = car.MotorNumber,
                 ChassisNumber = car.ChassisNumber
             };

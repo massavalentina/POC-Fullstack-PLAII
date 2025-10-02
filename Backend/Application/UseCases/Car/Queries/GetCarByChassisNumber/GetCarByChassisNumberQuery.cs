@@ -7,9 +7,9 @@ namespace Application.UseCases.Car.Queries.GetCarByChassisNumber
     public class GetCarByChassisNumberQuery : IRequestQuery<CarDto>
     {
         [Required]
-        public int ChassisNumber { get; set; }
+        public string ChassisNumber { get; set; }
 
-        public GetCarByChassisNumberQuery(int chassisNumber)
+        public GetCarByChassisNumberQuery(string chassisNumber)
         {
             ChassisNumber = chassisNumber;
         }

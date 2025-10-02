@@ -28,11 +28,11 @@ namespace Controlles
             return NoContent();
         }
 
-        [HttpGet("api/v1/{chassisNumber:int}")] //cambiar a string según consigna
-        public async Task<IActionResult> GetByChassisNumber(int chassisNumber)
+        [HttpGet("api/v1/{chassisNumber:string}")] //cambiar a string según consigna
+        public async Task<IActionResult> GetByChassisNumber(string chassisNumber)
         {
-            if (chassisNumber <= 0)
-                return BadRequest("El número de chasis debe ser mayor a 0");
+            if (chassisNumber == null)
+                return BadRequest("El número de chasis no puede ser nulo");
 
             var query = new GetCarByChassisNumberQuery(chassisNumber);
             var result = await _mediator.Send(query);
