@@ -28,7 +28,7 @@ namespace Controlles
             return NoContent();
         }
 
-        [HttpGet("api/v1/{chassisNumber:string}")] //cambiar a string según consigna
+        [HttpGet("api/v1/{chassisNumber}")]  // ← Solo el parámetro, sin :string
         public async Task<IActionResult> GetByChassisNumber(string chassisNumber)
         {
             if (chassisNumber == null)
