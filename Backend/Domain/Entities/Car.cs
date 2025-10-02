@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Car : DomainEntity<string, CarValidator>
+    public class Car : DomainEntity<Guid, CarValidator>
     {
         private static long _motorSequence = 1;
         private static long _chassisSequence = 1;
@@ -17,7 +17,7 @@ namespace Domain.Entities
         private const string MotorPrefix = "MOT-";
         private const string ChassisPrefix = "CHA-";
         private const long MaxSequence = 999999999;
-        public Guid Id { get; set; }
+       // public Guid Id { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
         public string Color { get; set; }
@@ -25,13 +25,13 @@ namespace Domain.Entities
         public string MotorNumber { get; set; }
         public string ChassisNumber { get; set; }
 
-        public Car() { }
+        private Car() { }
         public Car(string make, string model, string color)
         {
-            Id = Guid.NewGuid();
+            Id = Guid.NewGuid(); // Uses the ID of DomainEntity
             Make = make;
             Model = model;
-            ModelYear = DateTime.Now;
+            ModelYear = DateTime.UtcNow;
             MotorNumber = CreateMotorNumber();
             ChassisNumber = CreateChassisNumber();
             Color = color;

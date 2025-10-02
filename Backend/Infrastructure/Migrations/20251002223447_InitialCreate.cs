@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,12 +16,12 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Make = table.Column<string>(type: "text", nullable: true),
-                    Model = table.Column<string>(type: "text", nullable: true),
-                    Color = table.Column<string>(type: "text", nullable: true),
+                    Make = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    Model = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    Color = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     ModelYear = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    MotorNumber = table.Column<string>(type: "text", nullable: true),
-                    ChassisNumber = table.Column<string>(type: "text", nullable: true)
+                    MotorNumber = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    ChassisNumber = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,6 +40,18 @@ namespace Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_DummyEntity", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cars_ChassisNumber",
+                table: "Cars",
+                column: "ChassisNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cars_MotorNumber",
+                table: "Cars",
+                column: "MotorNumber",
+                unique: true);
         }
 
         /// <inheritdoc />

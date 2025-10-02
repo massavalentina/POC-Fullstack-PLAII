@@ -14,8 +14,10 @@ namespace Domain.Validators
     {
         public CarValidator()
         {
-            //Las reglas de negocio deben ir definidas aca
-            RuleFor(x => x.Id).NotNull().NotEmpty().WithMessage(DomainConstants.NOTNULL_OR_EMPTY);
+            RuleFor(x => x.Id).NotNull().NotEmpty().WithMessage(DomainConstants.NOTNULL_OR_EMPTY); ;           // No empty Guid
+            RuleFor(x => x.Make).NotEmpty();
+            RuleFor(x => x.Model).NotEmpty();
+            RuleFor(x => x.Color).NotEmpty();
         }
     }
 }

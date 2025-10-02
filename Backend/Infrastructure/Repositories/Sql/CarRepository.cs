@@ -26,11 +26,11 @@ namespace Infrastructure.Repositories.Sql
                 .FirstOrDefaultAsync(c => c.ChassisNumber == chassisNumber, cancellationToken);
         }
 
-        public async Task<Car> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Guid> AddAsync(Car entity, CancellationToken ct = default)
         {
-            return await _context.Cars
-                .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+            await _context.Cars.AddAsync(entity, ct);
+            await _context.SaveChangesAsync(ct);
+            return entity.Id;
         }
     }
 }
