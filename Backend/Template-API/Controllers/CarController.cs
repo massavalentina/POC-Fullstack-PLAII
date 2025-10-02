@@ -24,7 +24,7 @@ namespace Controlles
             _mediator = mediator;
         }
 
-        [HttpDelete("api/v1/{id:guid}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var command = new DeleteCarCommand(id);
@@ -32,22 +32,19 @@ namespace Controlles
             return NoContent();
         }
 
-
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCarCommand command)
         {
             if (command is null) return BadRequest();
-
-            // Sobreescribimos el id del body con el de la ruta
             command.Id = id;
 
             var updatedCar = await _mediator.Send(command);
-
             if (updatedCar == null)
                 return NotFound($"Car with ID {id} not found");
 
             return Ok(updatedCar);
         }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -56,12 +53,10 @@ namespace Controlles
             return Ok(result);
         }
 
-
-
-        [HttpGet("api/v1/{chassisNumber:string}")] //cambiar a string según consigna
+        [HttpGet("chassis/{chassisNumber}")]
         public async Task<IActionResult> GetByChassisNumber(string chassisNumber)
         {
-            if (chassisNumber == null)
+            if (string.IsNullOrWhiteSpace(chassisNumber))
                 return BadRequest("El número de chasis no puede ser nulo");
 
             var query = new GetCarByChassisNumberQuery(chassisNumber);
@@ -70,4 +65,5 @@ namespace Controlles
             return Ok(result);
         }
     }
+
 }

@@ -55,7 +55,7 @@ namespace Application.UseCases.Car.Commands.UpdateCar
                     Id = car.Id,
                     Make = car.Make,
                     Model = car.Model,
-                    Year = car.Year,
+                    ModelYear = car.ModelYear,
                     Color = car.Color,
                     MotorNumber = car.MotorNumber,
                     ChassisNumber = car.ChassisNumber

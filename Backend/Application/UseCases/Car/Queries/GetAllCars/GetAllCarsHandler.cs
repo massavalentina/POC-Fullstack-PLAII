@@ -29,7 +29,7 @@ namespace Application.UseCases.Car.Queries.GetAllCars
                 Make = c.Make,
                 Model = c.Model,
                 Color = c.Color,
-                Year = c.Year,
+                ModelYear = c.ModelYear,
                 MotorNumber = c.MotorNumber,
                 ChassisNumber = c.ChassisNumber
             }).ToList();

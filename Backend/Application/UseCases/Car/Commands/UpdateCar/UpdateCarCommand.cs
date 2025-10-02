@@ -12,7 +12,7 @@ namespace Application.UseCases.Car.Commands.UpdateCar
     public class UpdateCarCommand : IRequest<CarDto>
     {
         public Guid Id { get; set; }         
-        public int Color { get; set; }       
-        public int MotorNumber { get; set; } 
+        public string Color { get; set; }       
+        public string MotorNumber { get; set; }
     } 
 }
