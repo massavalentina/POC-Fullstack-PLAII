@@ -7,6 +7,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="UseCases\Car\Queries\NewFolder\**" />
+	  <EmbeddedResource Remove="UseCases\Car\Queries\NewFolder\**" />
+	  <None Remove="UseCases\Car\Queries\NewFolder\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\Core.Application.Adapters\Core.Application.Adapters.Http.csproj" />
 		<ProjectReference Include="..\Core.Application.ComandQueryBus\Core.Application.ComandQueryBus.csproj" />
 		<ProjectReference Include="..\Core.Application.EventBus\Core.Application.EventBus.csproj" />
